@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="af3c442c-2c66-43f2-a276-5245c87389f9" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/3DposeEstimation.py" beforeDir="false" afterPath="$PROJECT_DIR$/3DposeEstimation.py" afterDir="false" />
-    </list>
+    <list default="true" id="af3c442c-2c66-43f2-a276-5245c87389f9" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,16 +120,15 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1552398734325</updated>
-      <workItem from="1552398735457" duration="2225000" />
+      <workItem from="1552398735457" duration="2775000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2225000" />
+    <option name="totallyTimeSpent" value="2775000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="-4" width="1855" height="1084" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Favorites" side_tool="true" />
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2498618" />
