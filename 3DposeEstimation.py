@@ -1,12 +1,12 @@
 # This function estimates 3D pose of given model and sample point clouds using Open3D library.
 # It follows global registration followed by refine registration (ICP) approach
 
-# More comments are necessary!
+# More comments are necessary !
 
 from __future__ import division, print_function, unicode_literals # To support both python 2 and python 3
 import  numpy as np
 from open3d import *
-
+import math
 
 
 class pose3D(object):
