@@ -1,24 +1,22 @@
-# This function estimates 3D pose of given model and sample point clouds using Open3D library.
-# It follows global registration followed by refine registration (ICP) approach
-
-# More comments might be necessary.
+# This function estimates 3D pose given model and sample point clouds as input using Open3D library.
+# It follows a global registration followed by refine registration (ICP) approach
 
 from __future__ import division, print_function, unicode_literals # To support both python 2 and python 3
-import  numpy as np
+import numpy as np
+import math
 from open3d import *
-
 
 
 class pose3D(object):
 
-    def __init__(self):
-        self.model_pcd_original = read_point_cloud("model.pcd")
+    def __init__(self, model_orig_pcd, sample_pcd):
+        self.model_pcd_original = model_orig_pcd
         self.XYZ_model = np.asarray(self.model_pcd_original.points)
         self.XYZ_min_model = np.min(self.XYZ_model, axis=0)
         self.XYZ_max_model = np.max(self.XYZ_model, axis=0)
         self.diameter_model = np.sqrt(np.square(self.XYZ_max_model[0] - self.XYZ_min_model[0]) + np.square(self.XYZ_max_model[1] - self.XYZ_min_model[1]) + np.square(self.XYZ_max_model[2] - self.XYZ_min_model[2]))
-        self.model_pcd = PointCloud()
-        self.sample_pcd = PointCloud()
+        self.model_pcd = PointCloud()  # To keep resized model points that can match the size of a sample point cloud.
+        self.sample_pcd = sample_pcd
 
 
     def prepare_dataset(self, model, sample, voxel_size):
@@ -71,7 +69,8 @@ class pose3D(object):
         print(":: Point-to-plane ICP registration is applied on original point")
         print("   clouds to refine the alignment. This time we use a strict")
         print("   distance threshold %.3f." % distance_threshold)
-        result = registration_icp(sample, model, distance_threshold,
+        result = registration_icp(sample, model,
+                distance_threshold,
                 result_global.transformation,                            # result_ransac.transformation or result_fast.transformation
                 TransformationEstimationPointToPlane())    # TransformationEstimationPointToPlane() or TransformationEstimationPointToPoint()
         return result
@@ -150,9 +149,7 @@ class pose3D(object):
 
     def Estimate3Dpose(self):
 
-        sample_pcd = read_point_cloud("sample.pcd") # Any sample point cloud can be given here
-
-
+        sample_pcd = self.sample_pcd
         XYZ_model = self.XYZ_model
         diameter_model = self.diameter_model
         model_pcd = self.model_pcd
@@ -175,18 +172,21 @@ class pose3D(object):
         # model_pcd.transform([[1, 0, 0, 0], [0, -1, 0, 0], [0, 0, -1, 0], [0, 0, 0, 1]])  # Flip it, otherwise the pointcloud will be upside down
         model_pcd.paint_uniform_color([1, 0, 0])
         draw_geometries([model_pcd + sample_pcd])
-        # rotation_matrix_estimated, quaternion_estimated = pose3D.CombinedRegistration(self, model_pcd, sample_pcd) # possible
-        rotation_matrix_estimated, quaternion_estimated = self.CombinedRegistration(model_pcd, sample_pcd) # possible
+        rotation_matrix_estimated, quaternion_estimated = self.CombinedRegistration(model_pcd, sample_pcd)
         print('rotation_matrix_estimated and rotation_vector_estimated: ', rotation_matrix_estimated)
         model_pcd.paint_uniform_color([1, 0, 0])
         sample_pcd.paint_uniform_color([0, 1, 0])
         draw_geometries([model_pcd + sample_pcd])
 
 
+# Main function
 def main():
-    Pose = pose3D()
+    model_orig_pcd = read_point_cloud("model.pcd")
+    sample_pcd = read_point_cloud("sample.pcd")  # Any sample point cloud can be given here
+    Pose = pose3D(model_orig_pcd, sample_pcd)
     Pose.Estimate3Dpose()
 
+# Execute from the interpreter
 if __name__ == "__main__":
     main()
 
