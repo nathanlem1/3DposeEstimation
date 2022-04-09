@@ -1,5 +1,7 @@
-# This function estimates 3D pose given model and sample point clouds as input using Open3D library.
+"""
+This function estimates 3D pose given model and sample point clouds as input using Open3D library.
 # It follows a global registration followed by refine registration (ICP) approach
+"""
 
 from __future__ import division, print_function, unicode_literals  # To support both python 2 and python 3
 import numpy as np
@@ -9,6 +11,11 @@ from open3d import io, geometry, pipelines, visualization, utility
 
 class pose3D(object):
     def __init__(self, model_orig_pcd, sample_pcd):
+        """
+        Arguments:
+            model_orig_pcd: model point cloud
+            sample_pcd: sample point cloud
+        """
         self.model_pcd_original = model_orig_pcd
         self.XYZ_model = np.asarray(self.model_pcd_original.points)
         self.XYZ_min_model = np.min(self.XYZ_model, axis=0)
