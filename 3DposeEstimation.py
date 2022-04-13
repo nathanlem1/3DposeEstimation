@@ -1,6 +1,7 @@
 """
-This function estimates 3D pose given model and sample point clouds as input using Open3D library.
-# It follows a global registration followed by refine registration (ICP) approach
+This code estimates 3D pose given model and sample point clouds as input using Open3D library.
+It follows a global registration followed by refine registration (ICP) approach.
+
 """
 
 from __future__ import division, print_function, unicode_literals  # To support both python 2 and python 3
@@ -113,10 +114,11 @@ class pose3D(object):
             return rotation_matrix, quaternion
 
     def quaternion_from_matrix(self, matrix, isprecise=False):
-        """Return quaternion from rotation matrix.
+        """
+        Return quaternion from rotation matrix.
 
-        If isprecise is True, the input matrix is assumed to be a precise rotation
-        matrix and a faster algorithm is used.
+        If isprecise is True, the input matrix is assumed to be a precise rotation matrix and a faster algorithm is
+        used.
 
         """
         m = np.array(matrix, dtype=np.float64, copy=False)[:4, :4]
